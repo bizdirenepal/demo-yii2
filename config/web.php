@@ -6,18 +6,6 @@ $config = [
     'aliases' => [
         '@webroot'  => dirname(__DIR__) . '/public',
     ],
-    'bootstrap' => ['admin'],
-    'modules' => [
-        'admin' => [
-            'class' => 'app\modules\admin\Module',
-        ],
-        'logtail' =>  [
-            'class' => 'app\modules\logtail\Module',
-            'aliases' => [
-                'Logs' => '@runtime/logtail/app.log',
-            ],
-        ],
-    ],
     'components' => [
         'assetManager' => [
             'bundles' => [
@@ -34,7 +22,7 @@ $config = [
             'cookieValidationKey' => 'HqGoyA3Z2wn6wOEpRAmWRd9ZokJZc95P',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => 'app\models\Identity',
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [

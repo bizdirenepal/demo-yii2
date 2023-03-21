@@ -17,7 +17,7 @@ config/
     bootstrap.php   contains app bootstrap constants & phalcon autoloaders
     constants.php   contains app constants
     main.php        contains the sample of the configuration file
-    redirect.php    contains the URLs redirections links
+    params.php      contains app params
     routes.php      contains routes of all the modules
 docker/             contains docker image files
 public/             contains publically accessible files and scripts
