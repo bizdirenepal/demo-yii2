@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://starhightechsolution.com/
  * @copyright Copyright (c) 2022 Anil Chaudhari
@@ -18,8 +19,8 @@ use yii\helpers\Html;
                 <div>
                     <h4>Address</h4>
                     <p>
-                    A108 Adam Street <br>
-                    New York, NY 535022 - US<br>
+                        A108 Adam Street <br>
+                        New York, NY 535022 - US<br>
                     </p>
                 </div>
 
@@ -30,8 +31,8 @@ use yii\helpers\Html;
                 <div>
                     <h4>Reservations</h4>
                     <p>
-                    <strong>Phone:</strong> +1 5589 55488 55<br>
-                    <strong>Email:</strong> info@example.com<br>
+                        <strong>Phone:</strong> +1 5589 55488 55<br>
+                        <strong>Email:</strong> info@example.com<br>
                     </p>
                 </div>
             </div>
@@ -41,8 +42,8 @@ use yii\helpers\Html;
                 <div>
                     <h4>Opening Hours</h4>
                     <p>
-                    <strong>Mon-Sat: 11AM</strong> - 23PM<br>
-                    Sunday: Closed
+                        <strong>Mon-Sat: 11AM</strong> - 23PM<br>
+                        Sunday: Closed
                     </p>
                 </div>
             </div>
@@ -61,7 +62,7 @@ use yii\helpers\Html;
 
     <div class="container">
         <div class="copyright">
-            &copy; Copyright <strong><span>Yummy</span></strong>. All Rights Reserved
+            &copy; Copyright <strong><span>Demo Yii2</span></strong>. All Rights Reserved
         </div>
         <div class="credits">
             <!-- All the links in the footer should remain intact. -->

@@ -19,17 +19,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 <div class="col-md-6">
                     <?php $form = ActiveForm::begin(['id' => 'login-form']); ?>
 
-                        <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
+                    <?= $form->field($model, 'username')->textInput(['autofocus' => true]) ?>
 
-                        <?= $form->field($model, 'password')->passwordInput() ?>
+                    <?= $form->field($model, 'password')->passwordInput() ?>
 
-                        <?= $form->field($model, 'rememberMe')->checkbox([
-                            'template' => "<div class='row'><div class='col-md-4 ml-4'>{input} {label}</div>\n<div class='col-md-8'>{error}</div></div>",
-                        ]) ?>
+                    <?= $form->field($model, 'rememberMe')->checkbox([
+                        'template' => "<div class='row'><div class='col-md-4 ml-4'>{input} {label}</div>\n<div class='col-md-8'>{error}</div></div>",
+                    ]) ?>
 
-                        <div class="form-group">
-                            <?= Html::submitButton('Sign In', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
-                        </div>
+                    <div class="form-group">
+                        <?= Html::submitButton('Sign In', ['class' => 'btn btn-primary', 'name' => 'login-button']) ?>
+                    </div>
 
                     <?php ActiveForm::end(); ?>
                 </div>

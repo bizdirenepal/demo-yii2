@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://starhightechsolution.com/
  * @copyright Copyright (c) 2022 Anil Chaudhari
@@ -19,6 +20,7 @@ AppAsset::register($this);
 <?php $this->beginPage() ?>
 <!DOCTYPE html>
 <html lang="<?= Yii::$app->language ?>">
+
 <head>
     <meta charset="<?= Yii::$app->charset ?>">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -26,13 +28,15 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
+
 <body class="<?= ArrayHelper::getValue(Yii::$app->params, 'bodyClass') ?>">
-<?php $this->beginBody() ?>
+    <?php $this->beginBody() ?>
 
-<?= $content ?>
+    <?= $content ?>
 
-<?php $this->endBody() ?>
+    <?php $this->endBody() ?>
 
 </body>
+
 </html>
 <?php $this->endPage() ?>

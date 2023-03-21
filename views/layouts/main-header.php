@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @link https://starhightechsolution.com/
  * @copyright Copyright (c) 2022 Anil Chaudhari
@@ -22,7 +23,7 @@ $this->registerJs("var _user = {$identity};", $this::POS_HEAD);
         <a href="/" class="logo d-flex align-items-center me-auto me-lg-0">
             <!-- Uncomment the line below if you also wish to use an image logo -->
             <!-- <img src="img/logo.png" alt=""> -->
-            <h1>Yummy<span>.</span></h1>
+            <h1>Demo Yii2<span>.</span></h1>
         </a>
 
         <nav id="navbar" class="navbar">
@@ -42,4 +43,4 @@ $this->registerJs("var _user = {$identity};", $this::POS_HEAD);
 
     </div>
 </header>
-  <!-- End Header -->
+<!-- End Header -->

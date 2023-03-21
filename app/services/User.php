@@ -32,15 +32,19 @@ class User extends Component
 
     public function fetch()
     {
-        $response = $this->getClient()->createRequest()
-            ->setMethod('POST')
-            ->setUrl('profile/me?expand=business,items')
-            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_AUTH_KEY')])
-            ->send();
-        if (!$response->isOk) {
-            throw new \Exception('Unable to fetch product.');
-        }
-        return $response->data;
+        $data = Yii::$app->cache->getOrSet('profile', function () {
+            $response = $this->getClient()->createRequest()
+                ->setMethod('POST')
+                ->setUrl('profile/me?expand=business,items')
+                ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_AUTH_KEY')])
+                ->send();
+            if (!$response->isOk) {
+                throw new \Exception('Unable to fetch product.');
+            }
+            return $response->data;
+        });
+
+        return $data;
     }
 
     public function login(array $data)
