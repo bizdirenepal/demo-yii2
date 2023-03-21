@@ -1,16 +1,16 @@
 <?php
 
-namespace app\models;
+namespace app\services;
 
 use Yii;
 use yii\base\Component;
 use yii\httpclient\Client;
 
 /**
- * This is the model class for API product".
+ * This is the model class for API business".
  *
  */
-class Product extends Component
+class Business extends Component
 {
     private $_client;
 
@@ -35,11 +35,11 @@ class Product extends Component
     {
         $response = $this->getClient()->createRequest()
             ->setMethod('GET')
-            ->setUrl('products/' . $id)
+            ->setUrl('businesses/' . $id)
             ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_AUTH_KEY')])
             ->send();
         if (!$response->isOk) {
-            throw new \Exception('Unable to fetch product.');
+            throw new \Exception('Unable to fetch business.');
         }
         return $response->data;
     }
@@ -48,12 +48,12 @@ class Product extends Component
     {
         $response = $this->getClient()->createRequest()
             ->setMethod('GET')
-            ->setUrl('products')
+            ->setUrl('businesses')
             ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_AUTH_KEY')])
             ->setData($data)
             ->send();
         if (!$response->isOk) {
-            throw new \Exception('Unable to fetch product.');
+            throw new \Exception('Unable to fetch business.');
         }
         return $response->data;
     }
@@ -62,12 +62,12 @@ class Product extends Component
     {
         $response = $this->getClient()->createRequest()
             ->setMethod('POST')
-            ->setUrl('products')
+            ->setUrl('businesses')
             ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_AUTH_KEY')])
             ->setData($data)
             ->send();
         if (!$response->isOk) {
-            throw new \Exception('Unable to create product.');
+            throw new \Exception('Unable to create business.');
         }
         return $response->data;
     }
@@ -76,12 +76,12 @@ class Product extends Component
     {
         $response = $this->getClient()->createRequest()
             ->setMethod('PUT')
-            ->setUrl('products/' . $id)
+            ->setUrl('businesses/' . $id)
             ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_AUTH_KEY')])
             ->setData($data)
             ->send();
         if (!$response->isOk) {
-            throw new \Exception('Unable to update product.');
+            throw new \Exception('Unable to update business.');
         }
         return $response->data;
     }
