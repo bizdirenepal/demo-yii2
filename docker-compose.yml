@@ -2,14 +2,14 @@ version: '3'
 services:
   app:
     build: ./docker/app
-    image: bizdire:latest
+    image: bizdire:yii2
     restart: 'no'
     ports:
       - '${APP_PORT}:80'
     volumes:
       - './:/var/www'
-      - './docker/php/php.ini:/etc/php/7.4/apache2/php.ini'
-      - './docker/php/php.ini:/etc/php/7.4/cli/php.ini'
+      - './docker/php/php.ini:/etc/php/8.1/apache2/php.ini'
+      - './docker/php/php.ini:/etc/php/8.1/cli/php.ini'
     links:
       - mariadb
       - adminer
@@ -18,8 +18,8 @@ services:
     restart: 'no'
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: 'database'
-  adminer: 
+      MYSQL_DATABASE: '${DB_DATABASE}'
+  adminer:
     image: adminer:latest
     restart: 'no'
     links:

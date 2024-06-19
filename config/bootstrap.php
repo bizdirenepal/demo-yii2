@@ -1,7 +1,7 @@
 <?php
 
 // Load default settings via dotenv from file
-$dotenv = Dotenv\Dotenv::createUnsafeImmutable(__DIR__);
+$dotenv = Dotenv\Dotenv::createUnsafeImmutable(dirname(__DIR__));
 $dotenv->load();
 
 // Checks & validation
