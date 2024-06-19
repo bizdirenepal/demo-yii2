@@ -10,15 +10,23 @@ use yii\httpclient\Client;
  * This is the model class for API product".
  *
  */
-class Product extends Component
+class ProductService extends Component
 {
+    /**
+     * Client client
+     */
     private $_client;
 
-    public function getClient()
+    /**
+     * Create a new service instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
         if (!is_object($this->_client)) {
             $this->_client = new Client([
-                'baseUrl' => getenv('API_ENDPOINT'),
+                'baseUrl' => getenv('API_URL'),
                 'requestConfig' => [
                     'format' => Client::FORMAT_JSON
                 ],
@@ -31,12 +39,12 @@ class Product extends Component
         return $this->_client;
     }
 
-    public function fetchOne(int $id)
+    public function findOne(int $id)
     {
-        $response = $this->getClient()->createRequest()
+        $response = $this->_client->createRequest()
             ->setMethod('GET')
             ->setUrl('products/' . $id)
-            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_AUTH_KEY')])
+            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_KEY')])
             ->send();
         if (!$response->isOk) {
             throw new \Exception('Unable to fetch product.');
@@ -44,12 +52,12 @@ class Product extends Component
         return $response->data;
     }
 
-    public function fetchAll(array $data)
+    public function findAll(array $data)
     {
-        $response = $this->getClient()->createRequest()
+        $response = $this->_client->createRequest()
             ->setMethod('GET')
             ->setUrl('products')
-            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_AUTH_KEY')])
+            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_KEY')])
             ->setData($data)
             ->send();
         if (!$response->isOk) {
@@ -60,10 +68,10 @@ class Product extends Component
 
     public function create(array $data)
     {
-        $response = $this->getClient()->createRequest()
+        $response = $this->_client->createRequest()
             ->setMethod('POST')
             ->setUrl('products')
-            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_AUTH_KEY')])
+            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_KEY')])
             ->setData($data)
             ->send();
         if (!$response->isOk) {
@@ -74,15 +82,34 @@ class Product extends Component
 
     public function update(int $id, array $data)
     {
-        $response = $this->getClient()->createRequest()
+        $response = $this->_client->createRequest()
             ->setMethod('PUT')
             ->setUrl('products/' . $id)
-            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_AUTH_KEY')])
+            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_KEY')])
             ->setData($data)
             ->send();
         if (!$response->isOk) {
             throw new \Exception('Unable to update product.');
         }
         return $response->data;
+    }
+
+    /**
+     * Get product reviews by id
+     *
+     * @param int $id
+     */
+    public function getReviews(int $id)
+    {
+        $response = $this->_client->createRequest()
+        ->setMethod('GET')
+            ->setUrl('product-reviews' . $id)
+            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_KEY')])
+            ->setData(['product_id' => $id])
+            ->send();
+        if (!$response->isOk) {
+            throw new \Exception('Unable to fetch reviews.');
+        }
+        return $response->getBody()->getContents();
     }
 }

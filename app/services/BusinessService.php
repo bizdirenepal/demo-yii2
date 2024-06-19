@@ -10,15 +10,23 @@ use yii\httpclient\Client;
  * This is the model class for API business".
  *
  */
-class Business extends Component
+class BusinessService extends Component
 {
+    /**
+     * Client client
+     */
     private $_client;
 
-    public function getClient()
+    /**
+     * Create a new service instance.
+     *
+     * @return void
+     */
+    public function __construct()
     {
         if (!is_object($this->_client)) {
             $this->_client = new Client([
-                'baseUrl' => getenv('API_ENDPOINT'),
+                'baseUrl' => getenv('API_URL'),
                 'requestConfig' => [
                     'format' => Client::FORMAT_JSON
                 ],
@@ -31,12 +39,12 @@ class Business extends Component
         return $this->_client;
     }
 
-    public function fetchOne(int $id)
+    public function findOne(int $id)
     {
-        $response = $this->getClient()->createRequest()
+        $response = $this->_client->createRequest()
             ->setMethod('GET')
             ->setUrl('businesses/' . $id)
-            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_AUTH_KEY')])
+            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_KEY')])
             ->send();
         if (!$response->isOk) {
             throw new \Exception('Unable to fetch business.');
@@ -44,12 +52,12 @@ class Business extends Component
         return $response->data;
     }
 
-    public function fetchAll(array $data)
+    public function findAll(array $data)
     {
-        $response = $this->getClient()->createRequest()
+        $response = $this->_client->createRequest()
             ->setMethod('GET')
             ->setUrl('businesses')
-            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_AUTH_KEY')])
+            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_KEY')])
             ->setData($data)
             ->send();
         if (!$response->isOk) {
@@ -60,10 +68,10 @@ class Business extends Component
 
     public function create(array $data)
     {
-        $response = $this->getClient()->createRequest()
+        $response = $this->_client->createRequest()
             ->setMethod('POST')
             ->setUrl('businesses')
-            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_AUTH_KEY')])
+            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_KEY')])
             ->setData($data)
             ->send();
         if (!$response->isOk) {
@@ -74,15 +82,32 @@ class Business extends Component
 
     public function update(int $id, array $data)
     {
-        $response = $this->getClient()->createRequest()
+        $response = $this->_client->createRequest()
             ->setMethod('PUT')
             ->setUrl('businesses/' . $id)
-            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_AUTH_KEY')])
+            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_KEY')])
             ->setData($data)
             ->send();
         if (!$response->isOk) {
             throw new \Exception('Unable to update business.');
         }
         return $response->data;
+    }
+
+    /**
+     * Save business contact
+     */
+    public function saveContact(array $data)
+    {
+        $response = $this->_client->createRequest()
+            ->setMethod('POST')
+            ->setUrl('business-contacts')
+            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_KEY')])
+            ->setData($data)
+            ->send();
+        if (!$response->isOk) {
+            throw new \Exception('Unable to send message business.');
+        }
+        return $response->getBody()->getContents();
     }
 }

@@ -3,42 +3,12 @@
 namespace app\controllers;
 
 use Yii;
-use app\services\User;
-use app\models\forms\LoginForm;
-use app\models\forms\SignupForm;
-use yii\filters\AccessControl;
-use yii\filters\VerbFilter;
-use yii\web\Controller;
-use yii\web\Response;
+use app\services\BusinessService;
+use app\services\ProductService;
+use app\services\ReviewService;
 
-class SiteController extends Controller
+class SiteController extends BaseController
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function behaviors()
-    {
-        return [
-            'access' => [
-                'class' => AccessControl::class,
-                'only' => ['logout'],
-                'rules' => [
-                    [
-                        'actions' => ['logout'],
-                        'allow' => true,
-                        'roles' => ['@'],
-                    ],
-                ],
-            ],
-            'verbs' => [
-                'class' => VerbFilter::class,
-                'actions' => [
-                    'logout' => ['post'],
-                ],
-            ],
-        ];
-    }
-
     /**
      * {@inheritdoc}
      */
@@ -64,64 +34,16 @@ class SiteController extends Controller
     {
         $this->layout = 'home';
 
-        $model = (new User())->fetch();
-        
+        $bservice = new BusinessService();
+        $model = $bservice->findOne(getenv('API_BID'));
+
+        $pservice = new ProductService();
+        $items = $pservice->findAll(['business_id' => getenv('API_BID')]);
+
         return $this->render('index', [
-            'model' => $model
-        ]);
-    }
-
-    /**
-     * Signup action.
-     *
-     * @return string|Response
-     * @throws \yii\base\Exception
-     */
-    public function actionSignup()
-    {
-        $model = new SignupForm();
-
-        if ($model->load(Yii::$app->request->post()) && $model->signup()) {
-            return $this->goHome();
-        }
-
-        return $this->render('signup', [
             'model' => $model,
+            'items' => $items,
         ]);
-    }
-
-    /**
-     * Login action.
-     *
-     * @return Response|string
-     */
-    public function actionLogin()
-    {
-        if (!Yii::$app->user->isGuest) {
-            return $this->goHome();
-        }
-
-        $model = new LoginForm();
-        if ($model->load(Yii::$app->request->post()) && $model->login()) {
-            return $this->goBack();
-        }
-
-        $model->password = '';
-        return $this->render('login', [
-            'model' => $model,
-        ]);
-    }
-
-    /**
-     * Logout action.
-     *
-     * @return Response
-     */
-    public function actionLogout()
-    {
-        Yii::$app->user->logout();
-
-        return $this->goHome();
     }
 
     /**
@@ -131,6 +53,46 @@ class SiteController extends Controller
      */
     public function actionAbout()
     {
-        return $this->render('about');
+        $service = new BusinessService();
+        $model = $service->findOne(getenv('API_BID'));
+
+        return $this->render('about', [
+            'model' => $model,
+        ]);
+    }
+
+    /**
+     * Displays contact page.
+     *
+     * @return string
+     */
+    public function actionContact()
+    {
+        $service = new BusinessService();
+        $model = $service->findOne(getenv('API_BID'));
+        if (Yii::$app->request->post('Contact')) {
+            $response = $service->saveContact(Yii::$app->request->post('Contact'));
+            if ($response->status) {
+                return $this->redirect('contact')->with('success', 'Message has been sent successfully');
+            }
+        }
+
+        return $this->render('contact', [
+            'model' => $model,
+        ]);
+    }
+
+    public function actionReviews()
+    {
+        $service = new BusinessService();
+        $model = $service->findOne(getenv('API_BID'));
+
+        $rservice = new ReviewService();
+        $items = $rservice->findAll(['business_id' => getenv('API_BID')]);
+
+        return $this->render('reviews', [
+            'model' => $model,
+            'items' => $items,
+        ]);
     }
 }

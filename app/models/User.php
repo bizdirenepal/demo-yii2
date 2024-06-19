@@ -22,7 +22,7 @@ Class User extends \yii\base\Model
     public static function findByUsername($username)
     {
         $client = new Client([
-            'baseUrl' => getenv('API_ENDPOINT'),
+            'baseUrl' => getenv('API_URL'),
             'requestConfig' => [
                 'format' => Client::FORMAT_JSON
             ],
@@ -36,7 +36,7 @@ Class User extends \yii\base\Model
             ->setMethod('POST')
             ->setUrl('auth/check')
             ->setData(['username' => $username])
-            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_AUTH_KEY')])
+            ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_KEY')])
             ->send();
         if (!$response->isOk) {
             throw new \Exception('Unable to fetch product.');
