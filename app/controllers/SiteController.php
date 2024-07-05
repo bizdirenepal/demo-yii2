@@ -4,11 +4,30 @@ namespace app\controllers;
 
 use Yii;
 use app\services\BusinessService;
-use app\services\ProductService;
-use app\services\ReviewService;
 
 class SiteController extends BaseController
 {
+    /**
+     * {@inheritdoc}
+     */
+    public function behaviors()
+    {
+        return [
+            [
+                'class' => 'yii\filters\HttpCache',
+                'only' => ['index', 'about'],
+                'etagSeed' => function ($action, $params) {
+                    return serialize([Yii::$app->session->getId()]);
+                },
+            ],
+            [
+                'class' => 'yii\filters\PageCache',
+                'only' => ['error'],
+                'duration' => 3600,
+            ],
+        ];
+    }
+
     /**
      * {@inheritdoc}
      */
@@ -35,10 +54,8 @@ class SiteController extends BaseController
         $this->layout = 'home';
 
         $bservice = new BusinessService();
-        $model = $bservice->findOne(getenv('API_BID'));
-
-        $pservice = new ProductService();
-        $items = $pservice->findAll(['business_id' => getenv('API_BID')]);
+        $model = $bservice->findOne(Yii::$app->id, ['expand' => 'items']);
+        $items = $model['data']['items'] ?? [];
 
         return $this->render('index', [
             'model' => $model,
@@ -54,7 +71,7 @@ class SiteController extends BaseController
     public function actionAbout()
     {
         $service = new BusinessService();
-        $model = $service->findOne(getenv('API_BID'));
+        $model = $service->findOne(Yii::$app->id);
 
         return $this->render('about', [
             'model' => $model,
@@ -69,7 +86,7 @@ class SiteController extends BaseController
     public function actionContact()
     {
         $service = new BusinessService();
-        $model = $service->findOne(getenv('API_BID'));
+        $model = $service->findOne(Yii::$app->id);
         if (Yii::$app->request->post('Contact')) {
             $response = $service->saveContact(Yii::$app->request->post('Contact'));
             if ($response->status) {
@@ -85,10 +102,8 @@ class SiteController extends BaseController
     public function actionReviews()
     {
         $service = new BusinessService();
-        $model = $service->findOne(getenv('API_BID'));
-
-        $rservice = new ReviewService();
-        $items = $rservice->findAll(['business_id' => getenv('API_BID')]);
+        $model = $service->findOne(Yii::$app->id, ['expand' => 'reviews']);
+        $items = $model['data']['reviews'] ?? [];
 
         return $this->render('reviews', [
             'model' => $model,

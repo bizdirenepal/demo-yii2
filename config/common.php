@@ -4,9 +4,8 @@ $params = require(__DIR__ . '/params.php');
 
 // Basic configuration, used in web and console applications
 return [
-    'id' => 'app',
-    'language' => 'en',
-    'name' => 'Demo Yii2',
+    'id' => getenv('APP_ID'),
+    'name' => getenv('API_NAME'),
     'basePath' => dirname(__DIR__) . '/app',
     'vendorPath' => dirname(__DIR__) . '/vendor',
     'runtimePath' => dirname(__DIR__) . '/runtime',

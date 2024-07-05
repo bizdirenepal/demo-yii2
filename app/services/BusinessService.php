@@ -39,11 +39,11 @@ class BusinessService extends Component
         return $this->_client;
     }
 
-    public function findOne(int $id)
+    public function findOne(int $id, array $data = [])
     {
         $response = $this->_client->createRequest()
             ->setMethod('GET')
-            ->setUrl('businesses/' . $id)
+            ->setUrl(array_merge(['businesses/' . $id], $data))
             ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_KEY')])
             ->send();
         if (!$response->isOk) {
