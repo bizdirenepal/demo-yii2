@@ -36,11 +36,11 @@ class ReviewService extends Component
         ]);
     }
 
-    public function findOne(int $id)
+    public function findOne(int $id, array $data = [])
     {
         $response = $this->_client->createRequest()
             ->setMethod('GET')
-            ->setUrl('business-reviews/' . $id)
+            ->setUrl(array_merge(['business-reviews/' . $id], $data))
             ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_KEY')])
             ->send();
         if (!$response->isOk) {
@@ -54,8 +54,8 @@ class ReviewService extends Component
         $response = $this->_client->createRequest()
             ->setMethod('GET')
             ->setUrl('business-reviews')
+            ->setUrl(array_merge(['business-reviews'], $data))
             ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_KEY')])
-            ->setData($data)
             ->send();
         if (!$response->isOk) {
             throw new \Exception('Unable to fetch product.');

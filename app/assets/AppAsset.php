@@ -40,7 +40,6 @@ class AppAsset extends AssetBundle
     ];
     public $depends = [
         'yii\web\YiiAsset',
-        'yii\bootstrap\BootstrapPluginAsset',
-        'rmrevin\yii\fontawesome\AssetBundle',
+        'yii\bootstrap5\BootstrapPluginAsset',
     ];
 }

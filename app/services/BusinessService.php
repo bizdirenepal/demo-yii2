@@ -56,9 +56,8 @@ class BusinessService extends Component
     {
         $response = $this->_client->createRequest()
             ->setMethod('GET')
-            ->setUrl('businesses')
+            ->setUrl(array_merge(['businesses'], $data))
             ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_KEY')])
-            ->setData($data)
             ->send();
         if (!$response->isOk) {
             throw new \Exception('Unable to fetch business.');
@@ -97,7 +96,7 @@ class BusinessService extends Component
     /**
      * Save business contact
      */
-    public function saveContact(array $data)
+    public function createContact(array $data)
     {
         $response = $this->_client->createRequest()
             ->setMethod('POST')
@@ -108,6 +107,6 @@ class BusinessService extends Component
         if (!$response->isOk) {
             throw new \Exception('Unable to send message business.');
         }
-        return $response->getBody()->getContents();
+        return $response->data;
     }
 }

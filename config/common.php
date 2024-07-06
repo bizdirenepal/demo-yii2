@@ -5,7 +5,7 @@ $params = require(__DIR__ . '/params.php');
 // Basic configuration, used in web and console applications
 return [
     'id' => getenv('APP_ID'),
-    'name' => getenv('API_NAME'),
+    'name' => getenv('APP_NAME'),
     'basePath' => dirname(__DIR__) . '/app',
     'vendorPath' => dirname(__DIR__) . '/vendor',
     'runtimePath' => dirname(__DIR__) . '/runtime',

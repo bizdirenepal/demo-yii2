@@ -297,6 +297,17 @@ section {
   background: rgba(206, 18, 18, 0.8);
 }
 
+@media (max-width: 575px) {
+    .header .logo h1 {
+        font-size: 20px;
+    }
+
+    .header .btn-book-a-table{
+      padding: 8px;
+      font-size: 10px;
+    }
+}
+
 section {
   scroll-margin-top: 90px;
 }

@@ -3,6 +3,7 @@
 namespace app\controllers;
 
 use Yii;
+use app\models\forms\ContactForm;
 use app\services\BusinessService;
 
 class SiteController extends BaseController
@@ -16,9 +17,9 @@ class SiteController extends BaseController
             [
                 'class' => 'yii\filters\HttpCache',
                 'only' => ['index', 'about'],
-                'etagSeed' => function ($action, $params) {
-                    return serialize([Yii::$app->session->getId()]);
-                },
+                // 'etagSeed' => function ($action, $params) {
+                //     return serialize([Yii::$app->session->getId()]);
+                // },
             ],
             [
                 'class' => 'yii\filters\PageCache',
@@ -54,12 +55,29 @@ class SiteController extends BaseController
         $this->layout = 'home';
 
         $bservice = new BusinessService();
-        $model = $bservice->findOne(Yii::$app->id, ['expand' => 'items']);
-        $items = $model['data']['items'] ?? [];
+        $response = $bservice->findOne(Yii::$app->id, ['expand' => 'items']);
+        $model = $response['data'];
+        $items = $response['data']['items'] ?? [];
 
+
+        $contact = new ContactForm();
+        if ($contact->load(Yii::$app->request->post()) && $contact->validate()) {
+            if ($contact->saveContact()) {
+                Yii::$app->session->setFlash(
+                    'success',
+                    'Thank you for contacting us. We will respond to you as soon as possible.'
+                );
+            } else {
+                Yii::$app->session->setFlash('error', 'There was an error sending email.');
+            }
+            return $this->refresh();
+        }
+
+        $this->view->params['model'] = $model;
         return $this->render('index', [
             'model' => $model,
             'items' => $items,
+            'contact' => $contact,
         ]);
     }
 
@@ -71,8 +89,10 @@ class SiteController extends BaseController
     public function actionAbout()
     {
         $service = new BusinessService();
-        $model = $service->findOne(Yii::$app->id);
+        $response = $service->findOne(Yii::$app->id);
+        $model = $response['data'];
 
+        $this->view->params['model'] = $model;
         return $this->render('about', [
             'model' => $model,
         ]);
@@ -86,25 +106,37 @@ class SiteController extends BaseController
     public function actionContact()
     {
         $service = new BusinessService();
-        $model = $service->findOne(Yii::$app->id);
-        if (Yii::$app->request->post('Contact')) {
-            $response = $service->saveContact(Yii::$app->request->post('Contact'));
-            if ($response->status) {
-                return $this->redirect('contact')->with('success', 'Message has been sent successfully');
+        $response = $service->findOne(Yii::$app->id);
+        $model = $response['data'];
+
+        $contact = new ContactForm();
+        if ($contact->load(Yii::$app->request->post()) && $contact->validate()) {
+            if ($contact->saveContact()) {
+                Yii::$app->session->setFlash(
+                    'success',
+                    'Thank you for contacting us. We will respond to you as soon as possible.'
+                );
+            } else {
+                Yii::$app->session->setFlash('error', 'There was an error sending email.');
             }
+            return $this->refresh();
         }
 
+        $this->view->params['model'] = $model;
         return $this->render('contact', [
             'model' => $model,
+            'contact' => $contact,
         ]);
     }
 
     public function actionReviews()
     {
         $service = new BusinessService();
-        $model = $service->findOne(Yii::$app->id, ['expand' => 'reviews']);
-        $items = $model['data']['reviews'] ?? [];
+        $response = $service->findOne(Yii::$app->id, ['expand' => 'reviews']);
+        $model = $response['data'];
+        $items = $response['data']['reviews'] ?? [];
 
+        $this->view->params['model'] = $model;
         return $this->render('reviews', [
             'model' => $model,
             'items' => $items,

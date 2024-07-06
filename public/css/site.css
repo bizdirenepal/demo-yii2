@@ -1,0 +1,15 @@
+.service-image {
+    height: 250px;
+}
+
+.business-image {
+    min-height: 250px;
+    height: 250px;
+    overflow: auto;
+    object-fit: cover;
+    width: 100%;
+}
+
+.menu-item a {
+    cursor: pointer;
+}

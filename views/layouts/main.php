@@ -7,20 +7,16 @@
  */
 
 use app\widgets\Alert;
-use app\widgets\Breadcrumbs;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
 ?>
 <?php $this->beginContent('@views/layouts/blank.php') ?>
-<?= $this->render('main-header') ?>
+<?= $this->render('_header') ?>
 <main class="main">
-    <?= Breadcrumbs::widget([
-        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
-    ]) ?>
     <?= Alert::widget() ?>
     <?= $content ?>
 </main>
-<?= $this->render('main-footer') ?>
+<?= $this->render('_footer') ?>
 
 <?php $this->endContent() ?>

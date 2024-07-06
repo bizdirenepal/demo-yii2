@@ -9,10 +9,10 @@ $config = [
     'components' => [
         'assetManager' => [
             'bundles' => [
-                'yii\bootstrap\BootstrapAsset' => [
+                'yii\bootstrap5\BootstrapAsset' => [
                     'css' => [],
                 ],
-                'yii\bootstrap\BootstrapPluginAsset' => [
+                'yii\bootstrap5\BootstrapPluginAsset' => [
                     'js' => [],
                 ],
             ],

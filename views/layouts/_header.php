@@ -7,6 +7,7 @@
  */
 
 use app\helpers\Json;
+use app\helpers\Url;
 
 /* @var $this yii\web\View */
 
@@ -23,21 +24,20 @@ $this->registerJs("var _user = {$identity};", $this::POS_HEAD);
         <a href="/" class="logo d-flex align-items-center me-auto me-lg-0">
             <!-- Uncomment the line below if you also wish to use an image logo -->
             <!-- <img src="img/logo.png" alt=""> -->
-            <h1>Demo Yii2<span>.</span></h1>
+            <h1><?= Yii::$app->name ?><span></span></h1>
         </a>
 
         <nav id="navbar" class="navbar">
             <ul>
-                <li><a href="#hero">Home</a></li>
-                <li><a href="#about">About</a></li>
-                <li><a href="#product">Service</a></li>
-                <li><a href="#gallery">Gallery</a></li>
-                <li><a href="#contact">Contact</a></li>
+                <li><a href="<?= Url::home(); ?>">Home</a></li>
+                <li><a href="<?= Url::to(['/service/index']); ?>">Services</a></li>
+                <li><a href="<?= Url::to(['/site/about']); ?>">About Us</a></li>
+                <li><a href="<?= Url::to(['/site/reviews']); ?>">Reviews</a></li>
             </ul>
         </nav>
         <!-- .navbar -->
 
-        <a class="btn-book-a-table" href="#book-a-table">Book a Table</a>
+        <a class="btn-book-a-table" href="<?= Url::to(['/site/contact']); ?>">Contact Us</a>
         <i class="mobile-nav-toggle mobile-nav-show bi bi-list"></i>
         <i class="mobile-nav-toggle mobile-nav-hide d-none bi bi-x"></i>
 

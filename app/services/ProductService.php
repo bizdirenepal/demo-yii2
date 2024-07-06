@@ -39,11 +39,11 @@ class ProductService extends Component
         return $this->_client;
     }
 
-    public function findOne(int $id)
+    public function findOne(int $id, array $data = [])
     {
         $response = $this->_client->createRequest()
             ->setMethod('GET')
-            ->setUrl('products/' . $id)
+            ->setUrl(array_merge(['products/' . $id], $data))
             ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_KEY')])
             ->send();
         if (!$response->isOk) {
@@ -56,9 +56,8 @@ class ProductService extends Component
     {
         $response = $this->_client->createRequest()
             ->setMethod('GET')
-            ->setUrl('products')
+            ->setUrl(array_merge(['products'], $data))
             ->setHeaders(['Authorization' => 'Bearer ' . getenv('API_KEY')])
-            ->setData($data)
             ->send();
         if (!$response->isOk) {
             throw new \Exception('Unable to fetch product.');

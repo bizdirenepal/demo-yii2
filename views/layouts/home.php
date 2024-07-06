@@ -10,7 +10,7 @@
 /* @var $content string */
 ?>
 <?php $this->beginContent('@views/layouts/blank.php') ?>
-<?= $this->render('main-header') ?>
+<?= $this->render('_header') ?>
 <?= $content ?>
-<?= $this->render('main-footer') ?>
+<?= $this->render('_footer') ?>
 <?php $this->endContent() ?>
